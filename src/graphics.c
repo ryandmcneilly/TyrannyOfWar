@@ -2,6 +2,7 @@
 #include "map.h"
 #include "unit.h"
 #include <raylib.h>
+#include <stdbool.h>
 
 
 Texture2D* load_tile_assets(void) {
@@ -70,14 +71,14 @@ void free_asset_loader(AssetLoader* loader) {
     free(loader->tiles);
 }
 
-void drawTileTexture(Map* map, AssetLoader* loader, enum TileType type, size_t row, size_t col) {
+void draw_tile_texture(Map* map, AssetLoader* loader, enum TileType type, size_t row, size_t col, bool canMoveTo) {
     Texture2D texture = loader->tiles[type];
     // Target pixel coords
     int posX = row * 16 * SCALE;
     int posY = col * 16 * SCALE;
 
     Vector2 origin = (Vector2){0, 0};
-    if (type >= SAND && type <= SHORE4) {
+    if (SAND <= type && type <= SHORE4) { // Beach type
         int offset = type - SAND; 
         Rectangle src = (Rectangle) {offset * 16, 0, (float)texture.width / 5, (float)texture.height };
         Rectangle dst = (Rectangle){posX, posY, (float)texture.width / 5 * SCALE, (float)texture.height * SCALE };
@@ -85,7 +86,7 @@ void drawTileTexture(Map* map, AssetLoader* loader, enum TileType type, size_t r
     } else {
         Rectangle src = (Rectangle){0, 0, texture.width, texture.height};
         Rectangle dst = (Rectangle){posX, posY, texture.width * SCALE, texture.height * SCALE};
-        DrawTexturePro(texture, src, dst, origin, 0, WHITE);
+        DrawTexturePro(texture, src, dst, origin, 0, canMoveTo ? GREEN : WHITE);
     }        
 }
 
@@ -133,16 +134,19 @@ void displayMenuStat(Map* map, Menu* menu) {
 
 
 void draw_map(Map* map, AssetLoader* loader, Player* player) {
+    Unit* selectedUnit = player->selectedUnit;
 
     // get surrounding tiles, want an array of these tiles
 
     for (size_t i = 0; i < map->height; ++i) {
         for (size_t j = 0; j < map->width; ++j) {
+            bool canMoveTo = selectedUnit && abs((int)(selectedUnit->row - i)) + abs((int)(selectedUnit->col - j)) <= selectedUnit->stats->movement;
             // Draw tiles
-            drawTileTexture(map, loader, map->tiles[i][j].type, i, j);
+            draw_tile_texture(map, loader, map->tiles[i][j].type, i, j, canMoveTo);
+
             // Draw tree
             if (map->tiles[i][j].hasTree) {
-                drawTileTexture(map, loader, TREE, i, j);
+                draw_tile_texture(map, loader, TREE, i, j, false);
             }
 
             if (map->tiles[i][j].tileData.hasKeep) {

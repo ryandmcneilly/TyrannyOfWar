@@ -35,7 +35,7 @@ void handle_input(Map* map, Player* player, Camera2D* camera) {
         // We have a unit selected, just move 
         int dx = tileAtCursor->row - unit->row;
         int dy = tileAtCursor->col - unit->col;
-        move_unit(map, unit, dx, dy);
+        if (can_unit_move(player->selectedUnit, *tileAtCursor)) move_unit(map, unit, dx, dy);
 
         // Unselect the player after moving
         player->selectedUnit = NULL;

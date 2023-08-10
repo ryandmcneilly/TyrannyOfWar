@@ -20,9 +20,3 @@ Unit* create_unit(enum UnitType unitType) {
     unit->stats = get_unit_stat(unitType); 
     return unit;
 }
-
-
-void free_unit(Unit* unit) {
-    free(unit->stats);
-    free(unit);
-}

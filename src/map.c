@@ -83,6 +83,17 @@ void place_unit(Map* map, Unit* unit, size_t row, size_t col) {
     unit->col = col;
 }
 
+
+bool can_unit_move(Unit* unit, Tile tile) {
+    if (!unit) return false;
+    
+    int manhattenDistance = abs((int)(unit->row - tile.row)) + abs((int)(unit->col - tile.col));
+    bool isOcean = SHORE1 <= tile.type && tile.type && SHORE4;
+
+    return manhattenDistance <= unit->stats->movement && !isOcean;
+}
+
+
 void deinit_map(Map* map) {
     for (size_t i = 0; i < map->height; ++i) {
         free(map->tiles[i]);

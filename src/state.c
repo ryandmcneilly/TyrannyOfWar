@@ -4,9 +4,7 @@
 
 Player* init_player() {
     Player* player = malloc(sizeof(Player));
-
-
-    
+    player->selectedUnit = NULL;
     return player;
 }
 
