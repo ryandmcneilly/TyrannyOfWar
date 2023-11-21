@@ -1,14 +1,19 @@
 #include<stdio.h>
 #include "raylib.h"
 
+#define WWIDTH 1000
+#define WHEIGHT 800
 
 int main() {
-    InitWindow(500, 500, "Game name");
+    InitWindow(WWIDTH, WHEIGHT, "Tyranny of War");
     while (!WindowShouldClose()) {
         BeginDrawing();
-           DrawText("Hello World", 250, 250, 20, RED);
+           DrawText("hello", WWIDTH / 2, WHEIGHT / 2, 20, RED);
         EndDrawing();
     }
+    CloseWindow();
+
+
     return 0;
 }
 
