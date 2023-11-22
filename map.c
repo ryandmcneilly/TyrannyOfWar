@@ -5,7 +5,7 @@
 
 #define DIRT_CHANCE 0.2
 #define TREE_CHANCE 0.15
-#define SCALE 1.5f
+#define SCALE 3.0f
 #define TREE_SCALE 1.0f
 
 enum TileType {
@@ -127,13 +127,14 @@ void draw_map(Map* map) {
             if (map->tiles[i][j].hasTree) {
                 Texture2D treeTexture = map->tiles[i][j].treeTexture;
                 Rectangle src = (Rectangle){0, 0, treeTexture.width, treeTexture.height};
-                Rectangle dest = (Rectangle){posX + (float)treeTexture.width/2, posY + (float)treeTexture.height/2, treeTexture.width * TREE_SCALE, treeTexture.height * TREE_SCALE};
+                Rectangle dest = (Rectangle){posX + (float)treeTexture.width/2, posY + (float)treeTexture.height/2, treeTexture.width * SCALE, treeTexture.height * SCALE};
                 Vector2 origin = (Vector2){0, 0};
                 DrawTexturePro(treeTexture, src, dest, origin, 0, WHITE);
             }
         }
     }
 }
+
 
 void deinit_map(Map* map) {
     for (size_t i = 0; i < map->height; ++i) {

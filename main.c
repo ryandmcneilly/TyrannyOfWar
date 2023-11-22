@@ -5,6 +5,8 @@
 #define WWIDTH 800
 #define WHEIGHT 800
 
+//TODO: Need to setup an asset loader (need to implement a hashmap?)
+
 
 int main() {
     InitWindow(WWIDTH, WHEIGHT, "Tyranny of War");
@@ -19,7 +21,7 @@ int main() {
     }
 
     CloseWindow();
-
+    deinit_map(&map);
 
     return 0;
 }
