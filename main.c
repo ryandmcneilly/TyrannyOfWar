@@ -2,16 +2,15 @@
 #include "map.c"
 #include "raylib.h"
 
-#define WWIDTH 1000
+#define WWIDTH 800
 #define WHEIGHT 800
 
 
 int main() {
     InitWindow(WWIDTH, WHEIGHT, "Tyranny of War");
-    size_t mapHeight = 20;
-    size_t mapWidth = 40;
+    size_t mapHeight = 30;
+    size_t mapWidth = 30;
     Map map = inititalise_map(mapHeight, mapWidth);
-    draw_map(&map);
     while (!WindowShouldClose()) {
         BeginDrawing();
             ClearBackground(WHITE);
