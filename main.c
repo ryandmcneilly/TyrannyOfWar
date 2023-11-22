@@ -1,39 +1,26 @@
 #include<stdio.h>
+#include "map.c"
 #include "raylib.h"
 
 #define WWIDTH 1000
 #define WHEIGHT 800
 
-enum Animation {
-    STANDING=0,
-    WALKING_LEFT,
-    WALKING_RIGHT,
-    NUM_ANIMATIONS,
-};
-
-Rectangle get_texture_rectangle(enum Animation animation, Texture2D atlas) {
-    Rectangle rectangle = {0};
-
-    return rectangle;
-}
 
 int main() {
     InitWindow(WWIDTH, WHEIGHT, "Tyranny of War");
-
-    Texture2D atlas = LoadTexture("./assets/sprites/Orc-Grunt.png");
-
+    size_t mapHeight = 20;
+    size_t mapWidth = 40;
+    Map map = inititalise_map(mapHeight, mapWidth);
+    draw_map(&map);
     while (!WindowShouldClose()) {
         BeginDrawing();
             ClearBackground(WHITE);
-
-            DrawTexture(atlas, 0, 0, WHITE);
+            draw_map(&map);
         EndDrawing();
     }
+
     CloseWindow();
 
 
     return 0;
 }
-
-
-
