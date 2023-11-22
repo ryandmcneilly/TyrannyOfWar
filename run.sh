@@ -6,4 +6,6 @@ LIBS="-L/opt/raylib/src"
 CFLAGS="-Wall -Wpedantic -Wextra"
 LDFLAGS="-lraylib -lGL -lm -lpthread -ldl -lrt"
 gcc main.c -o main $INCLUDE $LIBS $CFLAGS $LDFLAGS
-./main
+if [ "$1" != "compile" ]; then
+    ./main
+fi
