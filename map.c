@@ -4,7 +4,9 @@
 #include<stdio.h>
 
 #define DIRT_CHANCE 0.2
-#define SCALE 2.0f
+#define TREE_CHANCE 0.15
+#define SCALE 1.5f
+#define TREE_SCALE 1.0f
 
 enum TileType {
     DIRT = 0,
@@ -16,6 +18,7 @@ typedef struct {
     enum TileType type;
     Texture2D tileTexture;
     bool hasTree;
+    Texture2D treeTexture;
 } Tile;
 
 typedef struct {
@@ -23,8 +26,6 @@ typedef struct {
     size_t width;
     Tile** tiles;
 } Map;
-
-
 
 
 void setup_tile_texture(Tile* tile) {
@@ -42,8 +43,12 @@ void setup_tile_texture(Tile* tile) {
         default:
             return;
     }
-
     tile->tileTexture = LoadTexture(filepath);
+
+    if (tile->hasTree) {
+        char* treeFilePath = "./assets/tiles/Tree.png";
+        tile->treeTexture = LoadTexture(treeFilePath);
+    }
 }
 
 
@@ -95,9 +100,8 @@ Map inititalise_map(size_t mapHeight, size_t mapWidth) {
     // Fill grid
     for (size_t i = 0; i < mapHeight; ++i) {
         for (size_t j = 0; j < mapWidth; ++j) {
-            
             map.tiles[i][j].type = get_tile_type(&map, i, j);
-            map.tiles[i][j].hasTree = false;
+            map.tiles[i][j].hasTree = (float)rand() / RAND_MAX < TREE_CHANCE;
         }
     }
     
@@ -111,17 +115,26 @@ void draw_map(Map* map) {
         for (size_t j = 0; j < map->width; ++j) {
             int posX = i * 16 * SCALE;
             int posY = j * 16 * SCALE;
-            //printf("Placing at %d x, %d y", posX, posY);
-            Rectangle src = (Rectangle){0, 0, map->tiles[i][j].tileTexture.width, map->tiles[i][j].tileTexture.width};
-            Rectangle dest = (Rectangle){posX, posY, map->tiles[i][j].tileTexture.width * SCALE, map->tiles[i][j].tileTexture.height * SCALE};
-            Vector2 origin = (Vector2){map->tiles[i][j].tileTexture.width * SCALE / 2, map->tiles[i][j].tileTexture.height * SCALE / 2};
+
+            // Draw tile
+            Texture2D texture = map->tiles[i][j].tileTexture;
+            Rectangle src = (Rectangle){0, 0, texture.width,  texture.height};
+            Rectangle dest = (Rectangle){posX, posY, texture.width * SCALE, texture.height * SCALE};
+            Vector2 origin = (Vector2){0, 0};
             DrawTexturePro(map->tiles[i][j].tileTexture, src, dest, origin, 0, WHITE);
+
+            // Draw tree
+            if (map->tiles[i][j].hasTree) {
+                Texture2D treeTexture = map->tiles[i][j].treeTexture;
+                Rectangle src = (Rectangle){0, 0, treeTexture.width, treeTexture.height};
+                Rectangle dest = (Rectangle){posX + (float)treeTexture.width/2, posY + (float)treeTexture.height/2, treeTexture.width * TREE_SCALE, treeTexture.height * TREE_SCALE};
+                Vector2 origin = (Vector2){0, 0};
+                DrawTexturePro(treeTexture, src, dest, origin, 0, WHITE);
+            }
         }
     }
 }
 
-
-// Frees the map
 void deinit_map(Map* map) {
     for (size_t i = 0; i < map->height; ++i) {
         free(map->tiles[i]);
