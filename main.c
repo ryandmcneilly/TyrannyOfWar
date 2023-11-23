@@ -1,5 +1,5 @@
 #include<stdio.h>
-#include "map.c"
+#include "graphics.c"
 #include "raylib.h"
 
 #define WWIDTH 800

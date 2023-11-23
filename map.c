@@ -17,11 +17,18 @@ enum TileType {
 };
 
 typedef struct {
+    bool hasKeep;
+    int team;
+} TileData;
+
+typedef struct {
     enum TileType type;
     Texture2D tileTexture;
     bool hasTree;
     Texture2D treeTexture;
+    TileData tileData;
 } Tile;
+
 
 typedef struct {
     size_t height;
@@ -89,42 +96,24 @@ Map inititalise_map(size_t mapHeight, size_t mapWidth) {
         map.tiles[i] = (Tile*)calloc(mapWidth, sizeof(Tile));
     }
 
+    
+
+
     // Fill grid
     for (size_t i = 0; i < mapHeight; ++i) {
         for (size_t j = 0; j < mapWidth; ++j) {
             map.tiles[i][j].type = get_tile_type(&map, i, j);
             map.tiles[i][j].hasTree = (float)rand() / RAND_MAX < TREE_CHANCE;
+            
+            // Setup tile data
+            TileData tileData = {0};
+            tileData.hasKeep = false;
+            map.tiles[i][j].tileData = tileData;
         }
     }
     
     setup_map_textures(&map);
     return map;
-}
-
-
-void draw_map(Map* map) { 
-    for (size_t i = 0; i < map->height; ++i) {
-        for (size_t j = 0; j < map->width; ++j) {
-            int posX = i * 16 * SCALE;
-            int posY = j * 16 * SCALE;
-
-            // Draw tile
-            Texture2D texture = map->tiles[i][j].tileTexture;
-            Rectangle src = (Rectangle){0, 0, texture.width,  texture.height};
-            Rectangle dest = (Rectangle){posX, posY, texture.width * SCALE, texture.height * SCALE};
-            Vector2 origin = (Vector2){0, 0};
-            DrawTexturePro(map->tiles[i][j].tileTexture, src, dest, origin, 0, WHITE);
-
-            // Draw tree
-            if (map->tiles[i][j].hasTree) {
-                Texture2D treeTexture = map->tiles[i][j].treeTexture;
-                Rectangle src = (Rectangle){0, 0, treeTexture.width, treeTexture.height};
-                Rectangle dest = (Rectangle){posX, posY, treeTexture.width * SCALE, treeTexture.height * SCALE};
-                Vector2 origin = (Vector2){0, 0};
-                DrawTexturePro(treeTexture, src, dest, origin, 0, WHITE);
-            }
-        }
-    }
 }
 
 
