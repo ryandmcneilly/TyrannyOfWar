@@ -1,11 +1,13 @@
 #include <raylib.h>
-#include<stdlib.h>
-#include<stdbool.h>
-#include<stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include "perlin.c"
 
-#define DIRT_CHANCE 0.2
-#define TREE_CHANCE 0.15
-#define SCALE 3.0f
+#define DIRT_CHANCE 0.3
+#define LIGHT_GRASS_CHANCE 0.3
+#define TREE_CHANCE 0.05
+#define SCALE 1.0f
 #define TREE_SCALE 1.0f
 
 enum TileType {
@@ -62,26 +64,16 @@ void setup_map_textures(Map* map) {
 
 
 int get_tile_type(Map* map, size_t row, size_t col) {
-    double dirtChance = DIRT_CHANCE;
-
-    // General Case
-    if (row >= 1 && col >= 1 && col < map->width - 1) {
-        size_t adjDirt =    map->tiles[row-1][col-1].type == DIRT ? 1 : 0 +
-                            map->tiles[row-1][col].type   == DIRT ? 1 : 0 +
-                            map->tiles[row][col-1].type   == DIRT ? 1 : 0 +
-                            map->tiles[row-1][col+1].type == DIRT ? 1 : 0;
-        dirtChance += DIRT_CHANCE * adjDirt / 4;
-    } else if (col == map->width - 1) {
-        size_t adjDirt = map->tiles[row][col-1].type == DIRT ? 1 : 0;
-        dirtChance += DIRT_CHANCE;
-    }
-
-
-    bool isDirt = ((float)rand() / RAND_MAX) <= dirtChance;
-    if (isDirt) { return DIRT; }
-
-    // Half chance of being light/dark grass tile
-    return ((float)rand() / RAND_MAX) < 0.5 ? LIGHT_GRASS : DARK_GRASS;
+    float noiseScale = 0.1;
+    float noise = perlin(row * noiseScale, col * noiseScale); // noise in [0, 1]
+    printf("perlin(%f, %f) = %f", row*noiseScale, col*noiseScale, noise);
+    if (noise <= 0.4) { // DIRT CHANCE
+        return DIRT;
+    } else if (0.4 < noise && noise <= 0.55) {
+        return LIGHT_GRASS;
+    } else {
+        return DARK_GRASS;
+    } 
 }
 
 
@@ -127,7 +119,7 @@ void draw_map(Map* map) {
             if (map->tiles[i][j].hasTree) {
                 Texture2D treeTexture = map->tiles[i][j].treeTexture;
                 Rectangle src = (Rectangle){0, 0, treeTexture.width, treeTexture.height};
-                Rectangle dest = (Rectangle){posX + (float)treeTexture.width/2, posY + (float)treeTexture.height/2, treeTexture.width * SCALE, treeTexture.height * SCALE};
+                Rectangle dest = (Rectangle){posX, posY, treeTexture.width * SCALE, treeTexture.height * SCALE};
                 Vector2 origin = (Vector2){0, 0};
                 DrawTexturePro(treeTexture, src, dest, origin, 0, WHITE);
             }
