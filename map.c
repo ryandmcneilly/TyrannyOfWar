@@ -14,6 +14,8 @@ enum TileType {
     DIRT = 0,
     LIGHT_GRASS,
     DARK_GRASS,
+    TREE,
+    NUM_TILES,
 };
 
 typedef struct {
@@ -37,43 +39,10 @@ typedef struct {
 } Map;
 
 
-void setup_tile_texture(Tile* tile) {
-    char* filepath;
-    switch (tile->type) {
-        case LIGHT_GRASS:
-            filepath = "./assets/tiles/Grass1.png";
-            break;
-        case DARK_GRASS:
-            filepath = "./assets/tiles/Grass2.png";
-            break;
-        case DIRT:
-            filepath = "./assets/tiles/Dirt.png";
-            break;
-        default:
-            return;
-    }
-    tile->tileTexture = LoadTexture(filepath);
 
-    if (tile->hasTree) {
-        char* treeFilePath = "./assets/tiles/Tree.png";
-        tile->treeTexture = LoadTexture(treeFilePath);
-    }
-}
-
-
-void setup_map_textures(Map* map) {
-    for (size_t i = 0; i < map->height; ++i) {
-        for (size_t j = 0; j < map->width; ++j) {
-            setup_tile_texture(&(map->tiles[i][j]));
-        }
-    }
-}
-
-
-int get_tile_type(Map* map, size_t row, size_t col) {
+int get_tile_type(size_t row, size_t col) {
     float noiseScale = 0.1;
     float noise = perlin(row * noiseScale, col * noiseScale); // noise in [0, 1]
-    printf("perlin(%f, %f) = %f", row*noiseScale, col*noiseScale, noise);
     if (noise <= 0.4) { // DIRT CHANCE
         return DIRT;
     } else if (0.4 < noise && noise <= 0.55) {
@@ -96,13 +65,10 @@ Map inititalise_map(size_t mapHeight, size_t mapWidth) {
         map.tiles[i] = (Tile*)calloc(mapWidth, sizeof(Tile));
     }
 
-    
-
-
     // Fill grid
     for (size_t i = 0; i < mapHeight; ++i) {
         for (size_t j = 0; j < mapWidth; ++j) {
-            map.tiles[i][j].type = get_tile_type(&map, i, j);
+            map.tiles[i][j].type = get_tile_type(i, j);
             map.tiles[i][j].hasTree = (float)rand() / RAND_MAX < TREE_CHANCE;
             
             // Setup tile data
@@ -112,7 +78,6 @@ Map inititalise_map(size_t mapHeight, size_t mapWidth) {
         }
     }
     
-    setup_map_textures(&map);
     return map;
 }
 
