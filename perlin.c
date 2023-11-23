@@ -78,14 +78,3 @@ float perlin(float x, float y) {
     value = interpolate(ix0, ix1, sy);
     return value * 0.5 + 0.5;
 }
-//
-//int main() {
-//    float scale = 0.1;
-//    int N = 50;
-//    int M = 50;
-//    for (int i = 0; i < N; ++i) {
-//        for (int j = 0; j < M; ++j) {
-//            printf("perlin(%f, %f) = %.6f\n", i*scale, j*scale, perlin(i * scale, j * scale));
-//        }
-//    }
-//}
