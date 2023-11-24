@@ -1,7 +1,8 @@
-#include "map.c"
-#include <float.h>
-#include <math.h>
-#include <stdbool.h>
+// #include <float.h>
+// #include <math.h>
+// #include <stdbool.h>
+#include "spawn.h"
+
 
 // not used yet
 float closest_player_dist(Map* map, size_t row, size_t col) {
