@@ -37,7 +37,7 @@ Map inititalise_map(size_t mapHeight, size_t mapWidth) {
             map.tiles[i][j].tileData = tileData;
         }
     }
-    // spawn_player(&map, 1, 2);
+    spawn_player(&map, 1, 2);
     return map;
 }
 

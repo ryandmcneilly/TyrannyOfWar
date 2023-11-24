@@ -1,14 +1,4 @@
-#include "map.c"
-#include "raylib.h"
-
-
-typedef struct {
-    Texture2D*  buildings;
-    Texture2D** units;
-    Texture2D*  tiles;    
-} AssetLoader;
-
-
+#include "graphics.h"
 
 Texture2D* load_tile_assets(void) {
     // File paths correlate to TileType enum

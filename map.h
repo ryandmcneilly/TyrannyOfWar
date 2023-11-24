@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include "perlin.c"
+#include "perlin.h"
 
 #define DIRT_CHANCE 0.3
 #define LIGHT_GRASS_CHANCE 0.3
@@ -33,7 +33,6 @@ typedef struct {
     Texture2D treeTexture;
     TileData tileData;
 } Tile;
-
 
 typedef struct {
     size_t height;

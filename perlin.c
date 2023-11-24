@@ -1,5 +1,5 @@
-#include <math.h>
-#include<stdio.h>
+// #include <math.h>
+// #include<stdio.h>
 
 /* Function to linearly interpolate between a0 and a1
  * Weight w should be in the range [0.0, 1.0]

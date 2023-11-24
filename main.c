@@ -1,5 +1,5 @@
 #include<stdio.h>
-#include "graphics.c"
+#include "graphics.h"
 #include "raylib.h"
 
 #define WWIDTH 800
@@ -13,7 +13,6 @@ int main() {
     size_t mapWidth = WWIDTH/16;
 
     // Load assets
-
 
     InitWindow(WWIDTH, WHEIGHT, "Tyranny of War");
 

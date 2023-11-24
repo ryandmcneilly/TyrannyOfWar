@@ -1,6 +1,3 @@
-// #include <float.h>
-// #include <math.h>
-// #include <stdbool.h>
 #include "spawn.h"
 
 
@@ -32,6 +29,7 @@ void spawn_player(Map* map, size_t team, size_t numTeams) {
         if (!(map->tiles[posX][posY].tileData.hasKeep) && closest_player_dist(map, posX, posY) > minDistance) {
             map->tiles[posX][posY].tileData.hasKeep = true; // place spawn 
             map->tiles[posX][posY].tileData.team = team; // set team
+            break;
         }
     }
 }
