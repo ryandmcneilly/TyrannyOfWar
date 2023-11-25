@@ -21,6 +21,12 @@ enum TileType {
     NUM_TILES,
 };
 
+enum BuildingType {
+    CYAN_KEEP = 0,
+    RED_KEEP,
+    NUM_BUILDINGS,
+};
+
 typedef struct {
     bool hasKeep;
     int team;
