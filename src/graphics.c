@@ -68,7 +68,7 @@ void drawBuildingTexture(Map* map, AssetLoader* loader, enum BuildingType buildi
 
     // 32 x 32 Texture on 3x2 grid
     Rectangle src = (Rectangle){0, 0, (float)texture.width / 3, (float)texture.height / 2}; 
-    Rectangle dst = (Rectangle){posX, posY, texture.width / 3 / 2 * SCALE, texture.height / 2 / 2 * SCALE};
+    Rectangle dst = (Rectangle){posX, posY, (float)texture.width / 3 / 2 * SCALE, (float)texture.height / 2 / 2 * SCALE};
     Vector2 origin = (Vector2){0, 0};
     DrawTexturePro(texture, src, dst, origin, 0, WHITE);
 
@@ -85,9 +85,11 @@ void draw_map(Map* map, AssetLoader* loader) {
             if (map->tiles[i][j].hasTree) {
                 drawTileTexture(map, loader, TREE, i, j);
             }
+
+            if (map->tiles[i][j].tileData.hasKeep) {
+                drawBuildingTexture(map, loader, CYAN_KEEP, i, j);
+            }
         }
     }
-
-    drawBuildingTexture(map, loader, CYAN_KEEP, 5, 5);
 }
 
