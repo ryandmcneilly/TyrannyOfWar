@@ -1,6 +1,5 @@
 #include "spawn.h"
 
-
 // not used yet
 float closest_player_dist(Map* map, size_t row, size_t col) {
     Tile** tiles = map->tiles;

@@ -5,7 +5,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "perlin.h"
+#include "time.h"
 
 #define DIRT_CHANCE 0.3
 #define LIGHT_GRASS_CHANCE 0.3
@@ -18,6 +20,11 @@ enum TileType {
     LIGHT_GRASS,
     DARK_GRASS,
     TREE,
+    SAND,
+    SHORE1,
+    SHORE2,
+    SHORE3,
+    SHORE4,
     NUM_TILES,
 };
 
@@ -46,7 +53,8 @@ typedef struct {
     Tile** tiles;
 } Map;
 
-int get_tile_type(size_t row, size_t col);
+
+int get_tile_type(size_t row, size_t col, float oceanArea);
 Map inititalise_map(size_t mapHeight, size_t mapWidth);
 void deinit_map(Map* map);
 
