@@ -10,10 +10,15 @@ Texture2D* load_tile_assets(void) {
         "./assets/tiles/Grass1.png",
         "./assets/tiles/Grass2.png",
         "./assets/tiles/Tree.png",
+        "./assets/tiles/Shore.png",
+        "./assets/tiles/Shore.png",
+        "./assets/tiles/Shore.png",
+        "./assets/tiles/Shore.png",
+        "./assets/tiles/Shore.png"
     };
  
     Texture2D* tileTextures = (Texture2D*)calloc(NUM_TILES, sizeof(Texture2D));
-    for (int i = 0; i < NUM_TILES; ++i) {
+    for (int i = 0; i < NUM_TILES; i++) {
         tileTextures[i] = LoadTexture(tileFilePaths[i]);
     }
     
@@ -62,17 +67,23 @@ void free_asset_loader(AssetLoader* loader) {
     free(loader->tiles);
 }
 
-
 void drawTileTexture(Map* map, AssetLoader* loader, enum TileType type, size_t row, size_t col) {
     Texture2D texture = loader->tiles[type];
     // Target pixel coords
     int posX = row * 16 * SCALE;
     int posY = col * 16 * SCALE;
 
-    Rectangle src = (Rectangle){0, 0, texture.width, texture.height};
-    Rectangle dst = (Rectangle){posX, posY, texture.width * SCALE, texture.height * SCALE};
     Vector2 origin = (Vector2){0, 0};
-    DrawTexturePro(texture, src, dst, origin, 0, WHITE);
+    if (type >= SAND && type <= SHORE4) {
+        int offset = type - SAND; 
+        Rectangle src = (Rectangle) {offset * 16, 0, (float)texture.width / 5, (float)texture.height };
+        Rectangle dst = (Rectangle){posX, posY, (float)texture.width / 5, (float)texture.height };
+        DrawTexturePro(texture, src, dst, origin, 0, WHITE);
+    } else {
+        Rectangle src = (Rectangle){0, 0, texture.width, texture.height};
+        Rectangle dst = (Rectangle){posX, posY, texture.width * SCALE, texture.height * SCALE};
+        DrawTexturePro(texture, src, dst, origin, 0, WHITE);
+    }        
 }
 
 
@@ -103,19 +114,18 @@ void drawUnitTexture(Map* map, AssetLoader* loader, Unit* unit, size_t row, size
     DrawTexturePro(texture, src, dst, origin, 0, WHITE);
 }
 
-
 void draw_map(Map* map, AssetLoader* loader) {
     for (size_t i = 0; i < map->height; ++i) {
         for (size_t j = 0; j < map->width; ++j) {
             // Draw tiles
             drawTileTexture(map, loader, map->tiles[i][j].type, i, j);
-
             // Draw tree
             if (map->tiles[i][j].hasTree) {
                 drawTileTexture(map, loader, TREE, i, j);
             }
 
             if (map->tiles[i][j].tileData.hasKeep) {
+                
                 drawBuildingTexture(map, loader, CYAN_KEEP, i, j);
             }
 
