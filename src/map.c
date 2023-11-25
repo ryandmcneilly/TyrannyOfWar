@@ -1,9 +1,10 @@
 #include "map.h"
 #include "spawn.h"
+#include "stdlib.h"
 
 int get_tile_type(size_t row, size_t col) {
-    float noiseScale = 0.1;
-    float noise = perlin(row * noiseScale, col * noiseScale); // noise in [0, 1]
+    float noiseScale = 10.0f; // TODO: somehow make it random and still look nice
+    float noise = perlin(row / noiseScale, col / noiseScale); // noise in [0, 1]
     if (noise <= 0.4) { // DIRT CHANCE
         return DIRT;
     } else if (0.4 < noise && noise <= 0.55) {
