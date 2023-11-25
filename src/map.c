@@ -43,6 +43,13 @@ Map inititalise_map(size_t mapHeight, size_t mapWidth) {
 }
 
 
+void place_unit(Map* map, Unit* unit, size_t row, size_t col) {
+    map->tiles[row][col].tileData.hasUnit = true;
+    map->tiles[row][col].tileData.unit = unit;
+    unit->row = row;
+    unit->col = col;
+}
+
 void deinit_map(Map* map) {
     for (size_t i = 0; i < map->height; ++i) {
         free(map->tiles[i]);

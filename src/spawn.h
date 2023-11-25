@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include "map.h"
 
+
 float closest_player_dist(Map* map, size_t row, size_t col);
 void spawn_player(Map* map, size_t team, size_t numTeams);
 

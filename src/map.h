@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "perlin.h"
+#include "unit.h"
 
 #define DIRT_CHANCE 0.3
 #define LIGHT_GRASS_CHANCE 0.3
@@ -29,6 +30,8 @@ enum BuildingType {
 
 typedef struct {
     bool hasKeep;
+    bool hasUnit;
+    Unit* unit;
     int team;
 } TileData;
 
@@ -46,9 +49,12 @@ typedef struct {
     Tile** tiles;
 } Map;
 
+
+
 int get_tile_type(size_t row, size_t col);
 Map inititalise_map(size_t mapHeight, size_t mapWidth);
 void deinit_map(Map* map);
+void place_unit(Map* map, Unit* unit, size_t row, size_t col);
 
 
 #endif

@@ -7,7 +7,7 @@
 // Tiles are stored based off
 typedef struct {
     Texture2D*  buildings;
-    Texture2D** units;
+    Texture2D*  units;
     Texture2D*  tiles;    
 } AssetLoader;
 

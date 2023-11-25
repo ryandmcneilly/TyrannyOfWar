@@ -1,5 +1,6 @@
 #include "graphics.h"
 #include "map.h"
+#include "unit.h"
 #include <raylib.h>
 
 Texture2D* load_tile_assets(void) {
@@ -33,11 +34,25 @@ Texture2D* load_building_assets(void) {
     return buildingTextures;
 }
 
+Texture2D* load_unit_assets(void) {
+    const char* unitFilePaths[] = {
+        "./assets/sprites/Orc-Grunt.png", 
+    };
+
+    Texture2D* unitTextures = (Texture2D*)calloc(NUM_UNITS, sizeof(Texture2D));
+    for (int i = 0; i < NUM_UNITS; ++i) {
+        unitTextures[i] = LoadTexture(unitFilePaths[i]);
+    }
+
+    return unitTextures;
+}
+
 
 AssetLoader load_assets(void) {
     AssetLoader loader = {0};
     loader.tiles = load_tile_assets();
     loader.buildings = load_building_assets();
+    loader.units = load_unit_assets();
     return loader; 
 }
 
@@ -60,6 +75,7 @@ void drawTileTexture(Map* map, AssetLoader* loader, enum TileType type, size_t r
     DrawTexturePro(texture, src, dst, origin, 0, WHITE);
 }
 
+
 void drawBuildingTexture(Map* map, AssetLoader* loader, enum BuildingType buildingType, size_t row, size_t col) {
     Texture2D texture = loader->buildings[buildingType];
     // Target pixel coords
@@ -71,7 +87,20 @@ void drawBuildingTexture(Map* map, AssetLoader* loader, enum BuildingType buildi
     Rectangle dst = (Rectangle){posX, posY, (float)texture.width / 3 / 2 * SCALE, (float)texture.height / 2 / 2 * SCALE};
     Vector2 origin = (Vector2){0, 0};
     DrawTexturePro(texture, src, dst, origin, 0, WHITE);
+}
 
+
+void drawUnitTexture(Map* map, AssetLoader* loader, Unit* unit, size_t row, size_t col) {
+    Texture2D texture = loader->units[unit->unitType]; 
+    int posX = row * 16 * SCALE;
+    int posY = col * 16 * SCALE;
+
+    size_t atlasWidth = 32;
+    size_t atlasHeight = 8;
+    Rectangle src = (Rectangle){0, 0, (float)32, (float)32};
+    Rectangle dst = (Rectangle){posX, posY, 32 / 2 * SCALE, 32 / 2 * SCALE};
+    Vector2 origin = (Vector2){0, 0};
+    DrawTexturePro(texture, src, dst, origin, 0, WHITE);
 }
 
 
@@ -88,6 +117,13 @@ void draw_map(Map* map, AssetLoader* loader) {
 
             if (map->tiles[i][j].tileData.hasKeep) {
                 drawBuildingTexture(map, loader, CYAN_KEEP, i, j);
+            }
+
+            Unit unit = create_unit(WARRIOR);
+            place_unit(map, &unit, i, j);
+
+            if (map->tiles[i][j].tileData.hasUnit) {
+                drawUnitTexture(map, loader, &unit, i, j);
             }
         }
     }
