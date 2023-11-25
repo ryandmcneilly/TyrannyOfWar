@@ -26,13 +26,13 @@ AssetLoader load_assets(void) {
 }
 
 
-void drawTexture(Map* map, Texture2D texture, size_t row, size_t col) {
+void drawTexture(Map* map, Texture2D texture, size_t row, size_t col, size_t size) {
     // Target pixel coords
     int posX = row * 16 * SCALE;
     int posY = col * 16 * SCALE;
 
     Rectangle src = (Rectangle){0, 0, texture.width, texture.height};
-    Rectangle dst = (Rectangle){posX, posY, texture.width * SCALE, texture.height * SCALE};
+    Rectangle dst = (Rectangle){posX, posY, texture.width * SCALE * size, texture.height * SCALE * size};
     Vector2 origin = (Vector2){0, 0};
     DrawTexturePro(texture, src, dst, origin, 0, WHITE);
 }
@@ -44,12 +44,12 @@ void draw_map(Map* map, AssetLoader* loader) {
             // Draw tiles
             enum TileType type = map->tiles[i][j].type;
             Texture2D tileTexture = loader->tiles[type];
-            drawTexture(map, tileTexture, i, j);
+            drawTexture(map, tileTexture, i, j, 1);
 
             // Draw tree
             if (map->tiles[i][j].hasTree) {
                 Texture2D treeTexture = loader->tiles[TREE];
-                drawTexture(map, treeTexture, i, j);
+                drawTexture(map, treeTexture, i, j, 1);
             }
         }
     }
