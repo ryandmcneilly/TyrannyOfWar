@@ -2,7 +2,6 @@
 #include "spawn.h"
 
 int get_tile_type(size_t row, size_t col, float oceanArea) {   
-
     float SHORE1_NOISE = oceanArea - 0.05;
     float SHORE2_NOISE = SHORE1_NOISE - 0.05;
     float SHORE3_NOISE = SHORE2_NOISE - 0.05;
@@ -31,6 +30,12 @@ int get_tile_type(size_t row, size_t col, float oceanArea) {
     } 
 }
 
+
+bool valid_tree_tile(enum TileType type) {
+    return !(SAND <= type && type <= SHORE4);
+}
+
+
 // Builds the map
 Map inititalise_map(size_t mapHeight, size_t mapWidth) {
     Map map = {0};
@@ -49,7 +54,8 @@ Map inititalise_map(size_t mapHeight, size_t mapWidth) {
     for (size_t i = 0; i < mapHeight; ++i) {
         for (size_t j = 0; j < mapWidth; ++j) {
             map.tiles[i][j].type = get_tile_type(i, j, SAND_NOISE);
-            map.tiles[i][j].hasTree = (float) rand() / RAND_MAX < TREE_CHANCE;
+            map.tiles[i][j].hasTree = valid_tree_tile(map.tiles[i][j].type ) 
+                && (float) rand() / RAND_MAX < TREE_CHANCE;
             
             // Setup tile data
             TileData tileData = {0};
