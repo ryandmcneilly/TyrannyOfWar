@@ -13,3 +13,4 @@ if [ "$1" == "debug" ]; then
 elif [ "$1" != "compile" ]; then
     ./main
 fi
+rm -rf ./main
