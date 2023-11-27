@@ -18,25 +18,34 @@ void handle_zoom(Camera2D* cam, float wheel) {
     cam->offset = mousePosition;
     cam->target = mouseWorldPos; 
     cam->zoom += wheel * 0.125f;
+
 }
+
 
 void edge_scroll(Camera2D* cam) {
     size_t step = 1;
     Vector2 mousePosition = GetMousePosition();
 
     if (mousePosition.x >= WWIDTH * (1 - EDGE_SCROLL_SENS)) {
+        //cam->target.x += step / cam->zoom;
+        // wwidth / zoom + target.x
         cam->target.x += step / cam->zoom;
-    } 
-    if (mousePosition.x <= WWIDTH * EDGE_SCROLL_SENS) {
+    }
+
+    if (mousePosition.x <= WWIDTH * EDGE_SCROLL_SENS ) {
         cam->target.x -=  step / cam->zoom;
+
+    
     } 
     if (mousePosition.y >= WHEIGHT * (1 - EDGE_SCROLL_SENS)) {
         cam->target.y += step / cam->zoom;
+
     } 
     if (mousePosition.y <= WHEIGHT * EDGE_SCROLL_SENS) {
-        cam->target.y -= step / cam->zoom;
+        cam->target.y -= step / cam->zoom; 
     }
 }
+
 
 Tile* cursorToTile(Map* map, Camera2D camera) {
     Vector2 mousePosition = GetMousePosition();

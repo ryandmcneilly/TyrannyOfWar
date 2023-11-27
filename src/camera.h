@@ -4,7 +4,8 @@
 #include "raylib.h"
 #include "map.h"
 
-#define EDGE_SCROLL_SENS 0.9
+// Sensitivity to edge to screen
+#define EDGE_SCROLL_SENS 0.03
 
 
 Tile* cursorToTile(Map* map, Camera2D camera);
