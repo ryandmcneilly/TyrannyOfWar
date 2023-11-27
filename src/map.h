@@ -44,9 +44,7 @@ typedef struct {
 
 typedef struct {
     enum TileType type;
-    Texture2D tileTexture;
     bool hasTree;
-    Texture2D treeTexture;
     TileData tileData;
 } Tile;
 
@@ -55,7 +53,6 @@ typedef struct {
     size_t width;
     Tile** tiles;
 } Map;
-
 
 
 int get_tile_type(size_t row, size_t col, float oceanArea);

@@ -22,7 +22,7 @@ int main() {
 
     while (!WindowShouldClose()) {
         handle_zoom(&cam, GetMouseWheelMove());
-        cursorToTile(&map, cam);
+        edge_scroll(&cam);
         BeginDrawing();
             ClearBackground(BLACK);
         	BeginMode2D(cam);

@@ -2,22 +2,40 @@
 #include "graphics.h"
 #include "stdio.h"
 #include <raylib.h>
+#include <wchar.h>
 
+// TODO: Figure out max and min zooms here
 void handle_zoom(Camera2D* cam, float wheel) {
     // Checks if mouse wheel was actually moved
     if (wheel == 0) {
         return;
     }
-
-    // Gets world point
-    Vector2 mouseWorldPos = GetScreenToWorld2D(GetMousePosition(), *cam);
-    // Offset is where mouse is
-    cam->offset = GetMousePosition();
-    cam->target = mouseWorldPos;
     
-    // Zooom
+    Vector2 mousePosition = GetMousePosition();
+    // Gets world point
+    Vector2 mouseWorldPos = GetScreenToWorld2D(mousePosition, *cam);
+    // Offset is where mouse is
+    cam->offset = mousePosition;
+    cam->target = mouseWorldPos; 
     cam->zoom += wheel * 0.125f;
-    // TODO: Figure out max and min zooms here
+}
+
+void edge_scroll(Camera2D* cam) {
+    size_t step = 1;
+    Vector2 mousePosition = GetMousePosition();
+
+    if (mousePosition.x >= WWIDTH * (1 - EDGE_SCROLL_SENS)) {
+        cam->target.x += step / cam->zoom;
+    } 
+    if (mousePosition.x <= WWIDTH * EDGE_SCROLL_SENS) {
+        cam->target.x -=  step / cam->zoom;
+    } 
+    if (mousePosition.y >= WHEIGHT * (1 - EDGE_SCROLL_SENS)) {
+        cam->target.y += step / cam->zoom;
+    } 
+    if (mousePosition.y <= WHEIGHT * EDGE_SCROLL_SENS) {
+        cam->target.y -= step / cam->zoom;
+    }
 }
 
 Tile* cursorToTile(Map* map, Camera2D camera) {
