@@ -2,22 +2,22 @@
 #include "spawn.h"
 
 int get_tile_type(size_t row, size_t col, float oceanArea) {   
-    float SHORE1_NOISE = oceanArea - 0.05;
-    float SHORE2_NOISE = SHORE1_NOISE - 0.05;
-    float SHORE3_NOISE = SHORE2_NOISE - 0.05;
-    float SHORE4_NOISE = SHORE3_NOISE - 0.05;
+    float shore1cumProb = oceanArea - 0.05;
+    float shore2CumProb = shore1cumProb - 0.05;
+    float shore3CumProb = shore2CumProb - 0.05;
+    float shore4CumProb = shore3CumProb - 0.05;
     float space_left = 1 - oceanArea;
 
     float noiseScale = 10.0f; // TODO: somehow make it random and still look nice
     float noise = perlin(row / noiseScale, col / noiseScale); // noise in [0, 1]
 
-    if (noise < SHORE4_NOISE) { 
+    if (noise < shore4CumProb) { 
         return SHORE4;
-    } else if (noise < SHORE3_NOISE) {
+    } else if (noise < shore3CumProb) {
         return SHORE3;
-    } else if (noise < SHORE2_NOISE) {
+    } else if (noise < shore2CumProb) {
         return SHORE2;
-    } else if (noise < SHORE1_NOISE) {
+    } else if (noise < shore1cumProb) {
         return SHORE1;
     } else if (noise < oceanArea) {
         return SAND;
