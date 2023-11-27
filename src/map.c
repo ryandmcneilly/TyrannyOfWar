@@ -1,15 +1,17 @@
 #include "map.h"
 #include "spawn.h"
+#include <stdlib.h>
 
-int get_tile_type(size_t row, size_t col, float oceanArea) {   
+int get_tile_type(size_t row, size_t col, float randomNoise, float noiseScale) {
+    float oceanArea = 0.3;
     float shore1cumProb = oceanArea - 0.05;
     float shore2CumProb = shore1cumProb - 0.05;
     float shore3CumProb = shore2CumProb - 0.05;
     float shore4CumProb = shore3CumProb - 0.05;
     float space_left = 1 - oceanArea;
-
-    float noiseScale = 10.0f; // TODO: somehow make it random and still look nice
-    float noise = perlin(row / noiseScale, col / noiseScale); // noise in [0, 1]
+    
+    float scalar = noiseScale / (noiseScale * 0.1);
+    float noise = perlin((row + randomNoise) / scalar, (col + randomNoise) / scalar);
 
     if (noise < shore4CumProb) { 
         return SHORE4;
@@ -49,11 +51,15 @@ Map inititalise_map(size_t mapHeight, size_t mapWidth) {
     }
     // Fill grid
 
-    float SAND_NOISE = (float)rand()/RAND_MAX/10 * 3 + 0.2;
+    //float SAND_NOISE = (float)rand()/RAND_MAX/10 * 3 + 0.2;
+    //srand(time(NULL));
+
+    float noiseScale = 1000.0f;
+    float noise = ((float)rand() / RAND_MAX) * noiseScale;
 
     for (size_t i = 0; i < mapHeight; ++i) {
         for (size_t j = 0; j < mapWidth; ++j) {
-            map.tiles[i][j].type = get_tile_type(i, j, SAND_NOISE);
+            map.tiles[i][j].type = get_tile_type(i, j, noise, noiseScale);
             map.tiles[i][j].hasTree = valid_tree_tile(map.tiles[i][j].type ) 
                 && (float) rand() / RAND_MAX < TREE_CHANCE;
             

@@ -77,7 +77,7 @@ void drawTileTexture(Map* map, AssetLoader* loader, enum TileType type, size_t r
     if (type >= SAND && type <= SHORE4) {
         int offset = type - SAND; 
         Rectangle src = (Rectangle) {offset * 16, 0, (float)texture.width / 5, (float)texture.height };
-        Rectangle dst = (Rectangle){posX, posY, (float)texture.width / 5, (float)texture.height };
+        Rectangle dst = (Rectangle){posX, posY, (float)texture.width / 5 * SCALE, (float)texture.height * SCALE };
         DrawTexturePro(texture, src, dst, origin, 0, WHITE);
     } else {
         Rectangle src = (Rectangle){0, 0, texture.width, texture.height};
@@ -109,7 +109,8 @@ void drawUnitTexture(Map* map, AssetLoader* loader, Unit* unit, size_t row, size
     size_t atlasWidth = 32;
     size_t atlasHeight = 8;
     Rectangle src = (Rectangle){0, 0, (float)32, (float)32};
-    Rectangle dst = (Rectangle){posX, posY, 32 / 2 * SCALE, 32 / 2 * SCALE};
+    Rectangle dst = (Rectangle){posX, posY, 32 / 2.0 * SCALE, 32 / 2.0 * SCALE};
+    
     Vector2 origin = (Vector2){0, 0};
     DrawTexturePro(texture, src, dst, origin, 0, WHITE);
 }
