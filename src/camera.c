@@ -1,4 +1,5 @@
 #include "camera.h"
+#include "graphics.h"
 #include "stdio.h"
 #include <raylib.h>
 
@@ -19,8 +20,11 @@ void handle_zoom(Camera2D* cam, float wheel) {
     // TODO: Figure out max and min zooms here
 }
 
-Tile cursorToTile(Map* map, Camera2D camera) {
+Tile* cursorToTile(Map* map, Camera2D camera) {
     Vector2 mousePosition = GetMousePosition();
     Vector2 screenToWorld = GetScreenToWorld2D(mousePosition, camera);
-    return map->tiles[(int)screenToWorld.x / 16][(int)screenToWorld.y / 16]; // TODO: Change 16 to be dyanmic on grid size
+    if (!(0 <= screenToWorld.x && screenToWorld.x <= WWIDTH && 0 <= screenToWorld.y && screenToWorld.y <= WHEIGHT)) {
+        return NULL;
+    }
+    return &(map->tiles[(int)screenToWorld.x / 16][(int)screenToWorld.y / 16]); // TODO: Change 16 to be dyanmic on grid size
 }

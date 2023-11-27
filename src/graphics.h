@@ -4,6 +4,11 @@
 #include "map.h"
 #include "raylib.h"
 
+#define WWIDTH 800
+#define WHEIGHT 800
+#define FPS 144
+
+
 // Tiles are stored based off
 typedef struct {
     Texture2D*  buildings;
