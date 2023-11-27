@@ -8,7 +8,6 @@
 #define WHEIGHT 800
 #define FPS 144
 
-//TODO: Need to setup an asset loader (need to implement a hashmap?)
 int main() {
     // Setup random see for rand()
     srand(time(NULL));
