@@ -116,9 +116,6 @@ void drawUnitTexture(Map* map, AssetLoader* loader, Unit* unit, size_t row, size
 }
 
 void draw_map(Map* map, AssetLoader* loader) {
-
-    Unit unit = create_unit(WARRIOR);
-    place_unit(map, &unit, 3, 5);
     for (size_t i = 0; i < map->height; ++i) {
         for (size_t j = 0; j < map->width; ++j) {
             // Draw tiles
@@ -133,9 +130,8 @@ void draw_map(Map* map, AssetLoader* loader) {
                 drawBuildingTexture(map, loader, CYAN_KEEP, i, j);
             }
 
-
             if (map->tiles[i][j].tileData.hasUnit) {
-                drawUnitTexture(map, loader, &unit, i, j);
+                drawUnitTexture(map, loader, map->tiles[i][j].tileData.unit, i, j);
             }
         }
     }
