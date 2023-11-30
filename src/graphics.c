@@ -3,6 +3,7 @@
 #include "unit.h"
 #include <raylib.h>
 
+
 Texture2D* load_tile_assets(void) {
     // File paths correlate to TileType enum
     const char* tileFilePaths[] = {
@@ -25,6 +26,7 @@ Texture2D* load_tile_assets(void) {
     return tileTextures; 
 }
 
+
 Texture2D* load_building_assets(void) {
     const char* buildingFilePaths[] = {
         "./assets/buildings/CyanKeep.png",
@@ -38,6 +40,7 @@ Texture2D* load_building_assets(void) {
 
     return buildingTextures;
 }
+
 
 Texture2D* load_unit_assets(void) {
     const char* unitFilePaths[] = {
@@ -115,6 +118,13 @@ void drawUnitTexture(Map* map, AssetLoader* loader, Unit* unit, size_t row, size
     DrawTexturePro(texture, src, dst, origin, 0, WHITE);
 }
 
+
+void drawBuildMenu(Map* map) {
+    Rectangle menu = (Rectangle) {UPPERLEFTX, UPPERLEFTY, LOWERRIGHTX, LOWERRIGHTY};
+    DrawRectangleRounded(menu, 0.1, 1, BEIGE);
+}
+
+
 void draw_map(Map* map, AssetLoader* loader) {
     for (size_t i = 0; i < map->height; ++i) {
         for (size_t j = 0; j < map->width; ++j) {
@@ -135,5 +145,7 @@ void draw_map(Map* map, AssetLoader* loader) {
             }
         }
     }
+
+    drawBuildMenu(map);
 }
 
