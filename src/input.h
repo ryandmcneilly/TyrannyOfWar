@@ -6,6 +6,6 @@
 #include "player.h"
 
 void move_selected_unit(Map* map, Player* player, int dX, int dY);
-void handle_input(Map* map, Player* player);
+void handle_input(Map* map, Player* player, Camera2D* camera);
 
 #endif // !INPUT_H

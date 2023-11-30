@@ -32,7 +32,7 @@ int main() {
     while (!WindowShouldClose()) {
         handle_zoom(&cam, GetMouseWheelMove());
         edge_scroll(&cam);
-        handle_input(&map, &player);
+        handle_input(&map, &player, &cam);
 
         BeginDrawing();
             ClearBackground(BLACK);

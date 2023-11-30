@@ -4,8 +4,8 @@
 float closest_player_dist(Map* map, size_t row, size_t col) {
     Tile** tiles = map->tiles;
     float currSmallestDist = FLT_MAX; // init as biggest float
-    for (int i = 0; i < map->width; ++i) {
-        for (int j = 0; j < map->height; ++j) {
+    for (size_t i = 0; i < map->width; ++i) {
+        for (size_t j = 0; j < map->height; ++j) {
             Tile tile = map->tiles[i][j];
             if (tile.tileData.hasKeep) {
                 float distance = sqrt(pow(row - i, 2) + pow(col - j, 2));
