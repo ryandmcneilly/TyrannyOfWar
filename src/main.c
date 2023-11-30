@@ -1,5 +1,5 @@
 #include <stdbool.h>
-#include<stdio.h>
+#include <stdio.h>
 #include "graphics.h"
 #include "map.h"
 #include "raylib.h"
