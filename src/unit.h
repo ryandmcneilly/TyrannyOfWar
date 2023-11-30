@@ -8,10 +8,18 @@ enum UnitType {
     NUM_UNITS,
 };
 
+typedef struct {
+    float  health;
+    float attack;
+    size_t turnsToMake;
+} UnitStats;
+
+
 typedef struct  {
     enum UnitType unitType;
     size_t row;
     size_t col;
+    UnitStats* stats;
 } Unit;
 
 
