@@ -62,6 +62,8 @@ Map inititalise_map(size_t mapHeight, size_t mapWidth) {
             map.tiles[i][j].type = get_tile_type(i, j, noise, noiseScale);
             map.tiles[i][j].hasTree = valid_tree_tile(map.tiles[i][j].type ) 
                 && (float) rand() / RAND_MAX < TREE_CHANCE;
+            map.tiles[i][j].row = i;
+            map.tiles[i][j].col = j;
             
             // Setup tile data
             TileData tileData = {0};

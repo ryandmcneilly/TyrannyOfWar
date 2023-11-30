@@ -46,6 +46,8 @@ typedef struct {
     enum TileType type;
     bool hasTree;
     TileData tileData;
+    size_t row;
+    size_t col;
 } Tile;
 
 typedef struct {

@@ -23,7 +23,6 @@ typedef struct  {
 } Unit;
 
 
-
 Unit create_unit(enum UnitType unitType);
 
 
