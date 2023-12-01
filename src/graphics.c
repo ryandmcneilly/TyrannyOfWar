@@ -124,6 +124,12 @@ void drawBuildMenu(Map* map) {
     DrawRectangleRounded(menu, 0.1, 1, BEIGE);
 }
 
+void displayMenuStat(Map* map, Menu* menu) {
+    char health[6];
+    sprintf(health, "%.2f", menu->health);
+    DrawText(health, 10, 10, 20, DARKGRAY);
+}
+
 
 void draw_map(Map* map, AssetLoader* loader) {
     for (size_t i = 0; i < map->height; ++i) {
@@ -145,7 +151,5 @@ void draw_map(Map* map, AssetLoader* loader) {
             }
         }
     }
-
-    drawBuildMenu(map);
 }
 

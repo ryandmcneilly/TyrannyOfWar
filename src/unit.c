@@ -6,3 +6,14 @@ Unit create_unit(enum UnitType unitType) {
     return unit;
 }
 
+UnitStats get_unit_stat(enum UnitType unitType) {
+    switch (unitType) {
+        case WARRIOR:
+            UnitStats uniStates = {.health = 69};
+        return uniStates;
+
+        default:
+            break;
+    }
+}
+
