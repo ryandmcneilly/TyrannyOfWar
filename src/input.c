@@ -24,15 +24,26 @@ void move_unit(Map* map, Unit* unit, int dX, int dY) {
 
 
 void handle_input(Map* map, Player* player, Camera2D* camera) {
-    if (!IsMouseButtonDown(MOUSE_BUTTON_LEFT)) return;
+    if (!IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) return;
 
     // Gets tile where player clicked
     Unit* unit = player->selectedUnit;
     Tile* tileAtCursor = cursorToTile(map, *camera);
-    if (tileAtCursor == NULL) return;
 
-    // Gets difference
-    int dx = tileAtCursor->row - unit->row;
-    int dy = tileAtCursor->col - unit->col;
-    move_unit(map, unit, dx, dy);
+    if (tileAtCursor == NULL) return;
+    if (player->selectedUnit) {
+        // We have a unit selected, just move 
+        int dx = tileAtCursor->row - unit->row;
+        int dy = tileAtCursor->col - unit->col;
+        move_unit(map, unit, dx, dy);
+
+        // Unselect the player after moving
+        player->selectedUnit = NULL;
+        printf("Deselected!\n");
+    } else {
+        if (tileAtCursor->tileData.hasUnit) {
+            printf("Selected!\n");
+            player->selectedUnit = tileAtCursor->tileData.unit;
+        }
+    }
 }
