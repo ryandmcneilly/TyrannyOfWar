@@ -10,7 +10,6 @@ UnitStats* get_unit_stat(enum UnitType unitType) {
         case NUM_UNITS:
             assert(0 && "Invalid usage.\n");
     }
-
     return stats;
 }
 
@@ -22,9 +21,8 @@ Unit create_unit(enum UnitType unitType) {
     return unit;
 }
 
+
 void free_unit(Unit* unit) {
     free(unit->stats);
     free(unit);
 }
-
-

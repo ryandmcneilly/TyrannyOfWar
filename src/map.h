@@ -58,7 +58,7 @@ typedef struct {
 
 
 int get_tile_type(size_t row, size_t col, float oceanArea, float noiseScale);
-Map inititalise_map(size_t mapHeight, size_t mapWidth);
+Map* inititalise_map(size_t mapHeight, size_t mapWidth);
 void deinit_map(Map* map);
 void place_unit(Map* map, Unit* unit, size_t row, size_t col);
 

@@ -8,6 +8,7 @@
 #include "unit.h"
 #include "player.h"
 #include "input.h"
+#include "state.h"
 
 
 int main() {
@@ -22,29 +23,25 @@ int main() {
 
     InitWindow(WWIDTH, WHEIGHT, "Tyranny of War");
 
-    Map map = inititalise_map(mapHeight, mapWidth);
-    AssetLoader loader = load_assets();
-    Unit unit = create_unit(WARRIOR);
-    Player player = {0};
-    player.selectedUnit = &unit;
-    place_unit(&map, &unit, 3, 5);
+    GameState gameState = init_game_state(1, mapHeight, mapWidth);
 
+        
     while (!WindowShouldClose()) {
         handle_zoom(&cam, GetMouseWheelMove());
         edge_scroll(&cam);
-        handle_input(&map, &player, &cam);
+        handle_input(gameState.map, gameState.player, &cam);
 
         BeginDrawing();
             ClearBackground(BLACK);
         	BeginMode2D(cam);
-                draw_map(&map, &loader);
+                draw_map(gameState.map, gameState.loader);
             EndMode2D();
         EndDrawing();
     }
     CloseWindow();
 
-    deinit_map(&map);
-    free_asset_loader(&loader);
+    deinit_map(gameState.map);
+    free_asset_loader(gameState.loader);
 
     return 0;
 }

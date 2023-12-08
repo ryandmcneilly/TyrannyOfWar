@@ -56,11 +56,11 @@ Texture2D* load_unit_assets(void) {
 }
 
 
-AssetLoader load_assets(void) {
-    AssetLoader loader = {0};
-    loader.tiles = load_tile_assets();
-    loader.buildings = load_building_assets();
-    loader.units = load_unit_assets();
+AssetLoader* load_assets(void) {
+    AssetLoader* loader = malloc(sizeof(AssetLoader));
+    loader->tiles = load_tile_assets();
+    loader->buildings = load_building_assets();
+    loader->units = load_unit_assets();
     return loader; 
 }
 
@@ -115,7 +115,7 @@ void drawUnitTexture(Map* map, AssetLoader* loader, Unit* unit, size_t row, size
     Rectangle dst = (Rectangle){posX, posY, 32 / 2.0 * SCALE, 32 / 2.0 * SCALE};
     
     Vector2 origin = (Vector2){0, 0};
-    DrawTexturePro(texture, src, dst, origin, 0, WHITE);
+    DrawTexturePro(texture, src, dst, origin, 0, GREEN);
 }
 
 

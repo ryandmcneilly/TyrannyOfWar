@@ -25,7 +25,7 @@ typedef struct {
 } AssetLoader;
 
 Texture2D* load_tile_assets(void);
-AssetLoader load_assets(void);
+AssetLoader* load_assets(void);
 void draw_map(Map* map, AssetLoader* loader);
 void free_asset_loader(AssetLoader* loader);
 void drawBuildMenu(Map* map);

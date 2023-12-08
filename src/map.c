@@ -39,15 +39,15 @@ bool valid_tree_tile(enum TileType type) {
 
 
 // Builds the map
-Map inititalise_map(size_t mapHeight, size_t mapWidth) {
-    Map map = {0};
-    map.height = mapHeight;
-    map.width = mapWidth;
+Map* inititalise_map(size_t mapHeight, size_t mapWidth) {
+    Map* map = malloc(sizeof(Map));
+    map->height = mapHeight;
+    map->width = mapWidth;
     srand((unsigned int)time(NULL)); 
     // Allocate
-    map.tiles = (Tile**)calloc(mapHeight, sizeof(Tile*));
+    map->tiles = (Tile**)calloc(mapHeight, sizeof(Tile*));
     for (size_t i = 0; i < mapHeight; ++i) {
-        map.tiles[i] = (Tile*)calloc(mapWidth, sizeof(Tile));
+        map->tiles[i] = (Tile*)calloc(mapWidth, sizeof(Tile));
     }
     // Fill grid
 
@@ -59,19 +59,19 @@ Map inititalise_map(size_t mapHeight, size_t mapWidth) {
 
     for (size_t i = 0; i < mapHeight; ++i) {
         for (size_t j = 0; j < mapWidth; ++j) {
-            map.tiles[i][j].type = get_tile_type(i, j, noise, noiseScale);
-            map.tiles[i][j].hasTree = valid_tree_tile(map.tiles[i][j].type ) 
+            map->tiles[i][j].type = get_tile_type(i, j, noise, noiseScale);
+            map->tiles[i][j].hasTree = valid_tree_tile(map->tiles[i][j].type ) 
                 && (float) rand() / RAND_MAX < TREE_CHANCE;
-            map.tiles[i][j].row = i;
-            map.tiles[i][j].col = j;
+            map->tiles[i][j].row = i;
+            map->tiles[i][j].col = j;
             
             // Setup tile data
             TileData tileData = {0};
             tileData.hasKeep = false;
-            map.tiles[i][j].tileData = tileData;
+            map->tiles[i][j].tileData = tileData;
         }
     }
-    spawn_player(&map, 1, 2);
+    spawn_player(map, 1, 2);
     return map;
 }
 
