@@ -10,8 +10,9 @@ enum UnitType {
 
 typedef struct {
     float  health;
-    float attack;
-    size_t turnsToMake;
+    float  attack;
+    size_t cost;
+    size_t movement;
 } UnitStats;
 
 
