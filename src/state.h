@@ -2,11 +2,10 @@
 #define STATE_H
 
 #include "map.h"
-#include "graphics.h"
 #include "player.h"
-#include "graphics.h"
 #include "map.h"
 #include "stdlib.h"
+#include "graphics.h"
 
 typedef struct {
     Map* map;

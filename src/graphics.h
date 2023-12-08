@@ -4,6 +4,10 @@
 #include "map.h"
 #include "raylib.h"
 #include "keep_menu.h"
+#include "map.h"
+#include "unit.h"
+#include <raylib.h>
+
 
 #define WWIDTH 800
 #define WHEIGHT 800
@@ -24,8 +28,10 @@ typedef struct {
     Texture2D*  tiles;    
 } AssetLoader;
 
+
 Texture2D* load_tile_assets(void);
 AssetLoader* load_assets(void);
+
 void draw_map(Map* map, AssetLoader* loader);
 void free_asset_loader(AssetLoader* loader);
 void drawBuildMenu(Map* map);

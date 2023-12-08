@@ -9,6 +9,7 @@
 #include "perlin.h"
 #include "unit.h"
 #include "time.h"
+#include "player.h"
 
 #define DIRT_CHANCE 0.3
 #define LIGHT_GRASS_CHANCE 0.3
