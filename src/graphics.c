@@ -104,7 +104,7 @@ void drawBuildingTexture(Map* map, AssetLoader* loader, enum BuildingType buildi
 }
 
 
-void drawUnitTexture(Map* map, AssetLoader* loader, Unit* unit, size_t row, size_t col) {
+void drawUnitTexture(Map* map, AssetLoader* loader, Unit* unit, size_t row, size_t col, bool isSelected) {
     Texture2D texture = loader->units[unit->unitType]; 
     int posX = row * 16 * SCALE;
     int posY = col * 16 * SCALE;
@@ -115,7 +115,8 @@ void drawUnitTexture(Map* map, AssetLoader* loader, Unit* unit, size_t row, size
     Rectangle dst = (Rectangle){posX, posY, 32 / 2.0 * SCALE, 32 / 2.0 * SCALE};
     
     Vector2 origin = (Vector2){0, 0};
-    DrawTexturePro(texture, src, dst, origin, 0, GREEN);
+
+    DrawTexturePro(texture, src, dst, origin, 0, isSelected ? GREEN : WHITE);
 }
 
 
@@ -131,7 +132,7 @@ void displayMenuStat(Map* map, Menu* menu) {
 }
 
 
-void draw_map(Map* map, AssetLoader* loader) {
+void draw_map(Map* map, AssetLoader* loader, Player* player) {
     for (size_t i = 0; i < map->height; ++i) {
         for (size_t j = 0; j < map->width; ++j) {
             // Draw tiles
@@ -147,7 +148,8 @@ void draw_map(Map* map, AssetLoader* loader) {
             }
 
             if (map->tiles[i][j].tileData.hasUnit) {
-                drawUnitTexture(map, loader, map->tiles[i][j].tileData.unit, i, j);
+                bool isSelected = i == player->selectedUnit->col && j == player->selectedUnit->row;
+                drawUnitTexture(map, loader, map->tiles[i][j].tileData.unit, i, j, isSelected);
             }
         }
     }

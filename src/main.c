@@ -34,7 +34,7 @@ int main() {
         BeginDrawing();
             ClearBackground(BLACK);
         	BeginMode2D(cam);
-                draw_map(gameState.map, gameState.loader);
+                draw_map(gameState.map, gameState.loader, gameState.player);
             EndMode2D();
         EndDrawing();
     }
