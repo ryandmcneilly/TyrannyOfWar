@@ -14,10 +14,10 @@ UnitStats* get_unit_stat(enum UnitType unitType) {
 }
 
 
-Unit create_unit(enum UnitType unitType) {
-    Unit unit = {0};
-    unit.unitType = WARRIOR;
-    unit.stats = get_unit_stat(unitType); 
+Unit* create_unit(enum UnitType unitType) {
+    Unit* unit = malloc(sizeof(Unit));
+    unit->unitType = WARRIOR;
+    unit->stats = get_unit_stat(unitType); 
     return unit;
 }
 

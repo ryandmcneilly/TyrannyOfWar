@@ -133,6 +133,9 @@ void displayMenuStat(Map* map, Menu* menu) {
 
 
 void draw_map(Map* map, AssetLoader* loader, Player* player) {
+
+    // get surrounding tiles, want an array of these tiles
+
     for (size_t i = 0; i < map->height; ++i) {
         for (size_t j = 0; j < map->width; ++j) {
             // Draw tiles
@@ -148,7 +151,9 @@ void draw_map(Map* map, AssetLoader* loader, Player* player) {
             }
 
             if (map->tiles[i][j].tileData.hasUnit) {
-                bool isSelected = i == player->selectedUnit->col && j == player->selectedUnit->row;
+                bool isSelected = player->selectedUnit && 
+                    i == player->selectedUnit->col && 
+                    j == player->selectedUnit->row;
                 drawUnitTexture(map, loader, map->tiles[i][j].tileData.unit, i, j, isSelected);
             }
         }

@@ -24,7 +24,7 @@ typedef struct  {
 } Unit;
 
 
-Unit create_unit(enum UnitType unitType);
+Unit* create_unit(enum UnitType unitType);
 
 
 #endif
