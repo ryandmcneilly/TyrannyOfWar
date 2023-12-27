@@ -82,7 +82,7 @@ void draw_tile_texture(Map* map, AssetLoader* loader, enum TileType type, size_t
         int offset = type - SAND; 
         Rectangle src = (Rectangle) {offset * 16, 0, (float)texture.width / 5, (float)texture.height };
         Rectangle dst = (Rectangle){posX, posY, (float)texture.width / 5 * SCALE, (float)texture.height * SCALE };
-        DrawTexturePro(texture, src, dst, origin, 0, WHITE);
+        DrawTexturePro(texture, src, dst, origin, 0, canMoveTo ? GREEN : WHITE);
     } else {
         Rectangle src = (Rectangle){0, 0, texture.width, texture.height};
         Rectangle dst = (Rectangle){posX, posY, texture.width * SCALE, texture.height * SCALE};
@@ -141,7 +141,7 @@ void draw_map(Map* map, AssetLoader* loader, Player* player) {
 
     for (size_t i = 0; i < map->height; ++i) {
         for (size_t j = 0; j < map->width; ++j) {
-            bool canMoveTo = selectedUnit && abs((int)(selectedUnit->row - i)) + abs((int)(selectedUnit->col - j)) <= selectedUnit->stats->movement;
+            bool canMoveTo = can_unit_move(selectedUnit, map->tiles[i][j]);
             // Draw tiles
             draw_tile_texture(map, loader, map->tiles[i][j].type, i, j, canMoveTo);
 
@@ -151,7 +151,6 @@ void draw_map(Map* map, AssetLoader* loader, Player* player) {
             }
 
             if (map->tiles[i][j].tileData.hasKeep) {
-                
                 drawBuildingTexture(map, loader, CYAN_KEEP, i, j);
             }
 
