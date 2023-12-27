@@ -13,6 +13,7 @@ int get_tile_type(size_t row, size_t col, float randomNoise, float noiseScale) {
     float scalar = noiseScale / (noiseScale * 0.1);
     float noise = perlin((row + randomNoise) / scalar, (col + randomNoise) / scalar);
 
+    // TODO: Could make this cleaner 
     if (noise < shore4CumProb) { 
         return SHORE4;
     } else if (noise < shore3CumProb) {
@@ -44,15 +45,12 @@ Map* inititalise_map(size_t mapHeight, size_t mapWidth) {
     map->height = mapHeight;
     map->width = mapWidth;
     srand((unsigned int)time(NULL)); 
+    
     // Allocate
     map->tiles = (Tile**)calloc(mapHeight, sizeof(Tile*));
     for (size_t i = 0; i < mapHeight; ++i) {
         map->tiles[i] = (Tile*)calloc(mapWidth, sizeof(Tile));
     }
-    // Fill grid
-
-    //float SAND_NOISE = (float)rand()/RAND_MAX/10 * 3 + 0.2;
-    //srand(time(NULL));
 
     float noiseScale = 1000.0f;
     float noise = ((float)rand() / RAND_MAX) * noiseScale;
@@ -86,11 +84,9 @@ void place_unit(Map* map, Unit* unit, size_t row, size_t col) {
 
 bool can_unit_move(Unit* unit, Tile tile) {
     if (!unit) return false;
-    
     int manhattenDistance = abs((int)(unit->row - tile.row)) + abs((int)(unit->col - tile.col));
     bool isOcean = SHORE1 <= tile.type && tile.type && SHORE4;
-
-    return manhattenDistance <= unit->stats->movement && !isOcean;
+    return manhattenDistance <= unit->stats->movement && !isOcean && !tile.hasTree;
 }
 
 

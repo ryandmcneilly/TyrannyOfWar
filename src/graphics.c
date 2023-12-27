@@ -135,9 +135,6 @@ void displayMenuStat(Map* map, Menu* menu) {
 
 void draw_map(Map* map, AssetLoader* loader, Player* player) {
     Unit* selectedUnit = player->selectedUnit;
-    printf("We have selected a unit %d\n", selectedUnit != NULL);
-
-    // get surrounding tiles, want an array of these tiles
 
     for (size_t i = 0; i < map->height; ++i) {
         for (size_t j = 0; j < map->width; ++j) {

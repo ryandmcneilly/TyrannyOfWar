@@ -27,11 +27,12 @@ void handle_input(Map* map, Player* player, Camera2D* camera) {
     if (!IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) return;
 
     // Gets tile where player clicked
-    Unit* unit = player->selectedUnit;
     Tile* tileAtCursor = cursorToTile(map, *camera);
-
     if (tileAtCursor == NULL) return;
+
+    // Handle clicking on unit
     if (player->selectedUnit) {
+        Unit* unit = player->selectedUnit;
         // We have a unit selected, just move 
         int dx = tileAtCursor->row - unit->row;
         int dy = tileAtCursor->col - unit->col;
