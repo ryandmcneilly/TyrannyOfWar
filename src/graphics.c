@@ -135,6 +135,7 @@ void displayMenuStat(Map* map, Menu* menu) {
 
 void draw_map(Map* map, AssetLoader* loader, Player* player) {
     Unit* selectedUnit = player->selectedUnit;
+    printf("We have selected a unit %d\n", selectedUnit != NULL);
 
     // get surrounding tiles, want an array of these tiles
 
@@ -155,9 +156,9 @@ void draw_map(Map* map, AssetLoader* loader, Player* player) {
             }
 
             if (map->tiles[i][j].tileData.hasUnit) {
-                bool isSelected = player->selectedUnit && 
-                    i == player->selectedUnit->col && 
-                    j == player->selectedUnit->row;
+                bool isSelected = selectedUnit && 
+                    i == selectedUnit->row && 
+                    j == selectedUnit->col;
                 drawUnitTexture(map, loader, map->tiles[i][j].tileData.unit, i, j, isSelected);
             }
         }
